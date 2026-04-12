@@ -1,0 +1,10 @@
+---
+title: "The usage of AI"
+format: html
+---
+# the usage of AI
+AI tools were used during the completion of this assignment to assist with code suggestions, ideas for data visualization, and improvements to the written content. The AI primarily helped optimize the analytical structure and enhance the clarity of the report’s presentation; however, all final code execution, interpretation of results, and analytical conclusions were performed by the author.
+# acknowledgment of AI
+[AI](link)
+
+
