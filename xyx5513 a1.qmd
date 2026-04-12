@@ -17,23 +17,23 @@ library(tidyverse)
 data_first<-read.csv("data/36383724_Yixiang Xu.csv")
 ```
 
-## Introduction
+# Introduction
 This report investigates whether higher marketing spend per customer leads to higher purchase amounts. Understanding this relationship is important for optimizing marketing budget allocation. The analysis uses customer-level campaign data. The goal is to determine if increased spending improves revenue outcomes.
 
-## Research Question
+# Research Question
 Does higher marketing spend per customer lead to higher purchase amounts?  
 This report explores the relationship between marketing cost and customer spending behaviour.
 
-## Dataset Introduction
+# Dataset Introduction
 The dataset contains information on individual customers, including marketing spend and purchase amounts.  
 Data cleaning involved removing missing values and ensuring correct data types.  
 Outliers were inspected and handled where necessary.  
 The dataset is treated as the canonical record of the campaign.  
 All preprocessing steps were conducted before analysis.
-
+**data cleaning**
 During this data preprocessing phase, we performed an in-depth cleaning of the raw dataset using the R language’s tidyverse toolchain. First, we used the `parse_date_time` function to perform a robust parsing of the `signup_date` column using various date formats (ymd, mdy, dmy), thereby resolving issues with inconsistent date formats. Next, for non-standard placeholders in the `notes` column, we used `na_if` to explicitly map empty strings and “N/A” to native missing values (NA), ensuring statistical consistency. To accurately assess actual revenue, we performed business logic adjustments, setting the transaction amount to 0 for all entries marked as “returned.” Finally, we cast `visits` to an integer type and `segment` to a categorical type, thereby constructing a clean dataset with standardized formats, rigorous logic, and suitability for subsequent statistical modeling.
 
-# Dataset Description
+## Dataset Description
 The dataset used in this analysis provides a granular look at customer acquisition and spending patterns.It consists of `r ncol(cleaned_data)` variables and `r nrow(cleaned_data)` observations.The variables include a mix of character strings (customer IDs), date-time objects (signup dates), numeric doubles (marketing spend and purchase amounts), and integers (visit frequency). This variety allows for a multi-dimensional assessment of how campaign investments translate into revenue.
 ```{r}
 cleaned_data <- data_first %>%
@@ -74,5 +74,35 @@ ggplot(cleaned_data, aes(x = segment, y = purchase_amount)) +
     title = "Purchase Amount Distribution by Customer Segment",
     x = "Customer Segment",
     y = "Purchase Amount"
+  )
+```
+
+# result
+@fig-linear illustrates the relationship between marketing spend and purchase amount. Each point in the scatter plot represents an observation in the dataset, and the red line indicates the fitted linear regression trend. The figure shows an overall positive correlation, meaning that as marketing spend increases, purchase amounts also tend to rise. This suggests that marketing investment may influence consumer purchasing behavior. This analysis is based on `nrow(cleaned_data)` observations.
+```{r}
+#| label: fig-linear
+#| fig-cap: Relationship between marketing spend and purchase amount.
+ggplot(cleaned_data, aes(x = marketing_spend, y = purchase_amount)) +
+  geom_point(color = "steelblue", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  labs(
+    title = "Relationship between Marketing Spend and Purchase Amount",
+    x = "Marketing Spend",
+    y = "Purchase Amount"
+  )
+```
+
+@fig-segment illustrates the relationship between marketing spend and purchase amount across different customer segments. Each data point in the figure represents an observation, and the trend lines of different colors indicate the linear relationship for each customer group. The figure shows that, across all customer segments, there is an overall positive correlation between marketing spend and purchase amount; that is, as marketing spend increases, purchase amount typically increases as well. Although the overall trend is similar, the slopes of the trend lines vary slightly across different customer segments, suggesting that the strength of this relationship may differ among them. These results further support the research hypothesis that there is an association between marketing investment and higher purchase amounts.
+```{r}
+#| label: fig-segment
+#| fig-cap: Relationship between marketing spend and purchase amount across customer segments.
+ggplot(cleaned_data, aes(x = marketing_spend, y = purchase_amount, color = segment)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Marketing Spend vs Purchase Amount by Customer Segment",
+    x = "Marketing Spend",
+    y = "Purchase Amount",
+    color = "Customer Segment"
   )
 ```
