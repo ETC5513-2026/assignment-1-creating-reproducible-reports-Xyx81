@@ -1,0 +1,48 @@
+---
+title: "assignment1"
+author: Yixiang Xu 36383724
+format: 
+  html:
+   toc: true
+  pdf:
+   toc: true
+execute:
+  warning: false
+  message: false
+  echo: false
+---
+
+```{r}
+library(tidyverse)
+data_first<-read.csv("data/36383724_Yixiang Xu.csv")
+```
+
+## Introduction
+This report investigates whether higher marketing spend per customer leads to higher purchase amounts. Understanding this relationship is important for optimizing marketing budget allocation. The analysis uses customer-level campaign data. The goal is to determine if increased spending improves revenue outcomes.
+
+## Research Question
+Does higher marketing spend per customer lead to higher purchase amounts?  
+This report explores the relationship between marketing cost and customer spending behaviour.
+
+## Dataset Introduction
+The dataset contains information on individual customers, including marketing spend and purchase amounts.  
+Data cleaning involved removing missing values and ensuring correct data types.  
+Outliers were inspected and handled where necessary.  
+The dataset is treated as the canonical record of the campaign.  
+All preprocessing steps were conducted before analysis.
+
+During this data preprocessing phase, we performed an in-depth cleaning of the raw dataset using the R language’s tidyverse toolchain. First, we used the `parse_date_time` function to perform a robust parsing of the `signup_date` column using various date formats (ymd, mdy, dmy), thereby resolving issues with inconsistent date formats. Next, for non-standard placeholders in the `notes` column, we used `na_if` to explicitly map empty strings and “N/A” to native missing values (NA), ensuring statistical consistency. To accurately assess actual revenue, we performed business logic adjustments, setting the transaction amount to 0 for all entries marked as “returned.” Finally, we cast `visits` to an integer type and `segment` to a categorical type, thereby constructing a clean dataset with standardized formats, rigorous logic, and suitability for subsequent statistical modeling.
+```{r}
+cleaned_data <- data_first %>%
+  mutate(signup_date = parse_date_time(signup_date, orders = c("ymd", "mdy","dmy"))) %>%
+  
+  mutate(notes = na_if(notes, ""),
+  notes = na_if(notes, "N/A")) %>%
+  
+  mutate(purchase_amount = if_else(notes == "returned" & !is.na(notes), 0, purchase_amount)) %>%
+
+  mutate(
+    visits = as.integer(visits),
+    segment = as.factor(segment)
+  )
+```
