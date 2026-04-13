@@ -18,11 +18,10 @@ data_first<-read.csv("data/36383724_Yixiang Xu.csv")
 ```
 
 # Introduction
-This report investigates whether higher marketing spend per customer leads to higher purchase amounts. Understanding this relationship is important for optimizing marketing budget allocation. The analysis uses customer-level campaign data. The goal is to determine if increased spending improves revenue outcomes.
+This report examines whether an increase in marketing spend per customer leads to higher purchase amounts. Understanding this relationship is critical for optimizing the allocation of marketing budgets. This analysis uses customer-level marketing campaign data to determine whether increased marketing spend can improve revenue outcomes.
 
 # Research Question
-Does higher marketing spend per customer lead to higher purchase amounts?  
-This report explores the relationship between marketing cost and customer spending behaviour.
+This report examines whether higher marketing spending by customers leads to higher purchase amounts and investigates the relationship between marketing costs and customer spending behavior.
 
 # Dataset Introduction
 The dataset contains information on individual customers, including marketing spend and purchase amounts.  
