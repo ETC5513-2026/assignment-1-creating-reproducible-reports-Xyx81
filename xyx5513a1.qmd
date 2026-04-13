@@ -105,3 +105,4 @@ ggplot(cleaned_data, aes(x = marketing_spend, y = purchase_amount, color = segme
     color = "Customer Segment"
   )
 ```
+
